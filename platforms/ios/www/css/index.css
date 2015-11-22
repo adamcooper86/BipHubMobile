@@ -36,20 +36,23 @@ body {
 
 
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:0px 0px 0px 0px;  /* padding-top + padding-bottom + text area = image height */
-        margin:10px 10px 10px 10px;
-        
-    }
+  .app {
+    background-position:left center;
+    padding:0px 0px 0px 0px;
+    margin:10px 10px 10px 10px;
+  }
 }
 
 h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
+  font-size:24px;
+  font-weight:normal;
+  margin:0px;
+  overflow:visible;
+  padding:0px;
+  text-align:center;
 }
 
+/*developement*/
+.b1r {
+  border: 1px solid red;
+}

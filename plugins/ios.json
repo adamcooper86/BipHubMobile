@@ -7,11 +7,11 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.herokuapp.biphub"
-        },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.herokuapp.biphub"
+            "PACKAGE_NAME": "com.biphub.mobile"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.biphub.mobile"
         }
     },
     "dependent_plugins": {}

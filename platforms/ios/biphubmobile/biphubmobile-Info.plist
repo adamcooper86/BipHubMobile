@@ -54,7 +54,7 @@
       </dict>
     </dict>
     <key>CFBundleIdentifier</key>
-    <string>com.herokuapp.biphub</string>
+    <string>com.biphub.mobile</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>

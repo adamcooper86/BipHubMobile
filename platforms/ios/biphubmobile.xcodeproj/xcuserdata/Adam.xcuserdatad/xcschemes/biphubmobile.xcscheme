@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "biphubmobile.app"
-               BlueprintName = "biphubmobile"
-               ReferencedContainer = "container:biphubmobile.xcodeproj">
+               BuildableName = "BiphubMobile.app"
+               BlueprintName = "BiphubMobile"
+               ReferencedContainer = "container:BiphubMobile.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "biphubmobile.app"
-            BlueprintName = "biphubmobile"
-            ReferencedContainer = "container:biphubmobile.xcodeproj">
+            BuildableName = "BiphubMobile.app"
+            BlueprintName = "BiphubMobile"
+            ReferencedContainer = "container:BiphubMobile.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "biphubmobile.app"
-            BlueprintName = "biphubmobile"
-            ReferencedContainer = "container:biphubmobile.xcodeproj">
+            BuildableName = "BiphubMobile.app"
+            BlueprintName = "BiphubMobile"
+            ReferencedContainer = "container:BiphubMobile.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "biphubmobile.app"
-            BlueprintName = "biphubmobile"
-            ReferencedContainer = "container:biphubmobile.xcodeproj">
+            BuildableName = "BiphubMobile.app"
+            BlueprintName = "BiphubMobile"
+            ReferencedContainer = "container:BiphubMobile.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

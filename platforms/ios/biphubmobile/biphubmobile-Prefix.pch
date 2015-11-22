@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'biphubmobile' target in the 'biphubmobile' project
+// Prefix header for all source files of the 'BiphubMobile' target in the 'BiphubMobile' project
 //
 
 #ifdef __OBJC__
