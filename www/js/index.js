@@ -24,6 +24,11 @@ var view = {
   },
   errorMessage: function(errorTarget, message){
     $(errorTarget).text("There was an error logging in. " + message);
+  },
+  updatePersonalInfo: function(){
+    console.log('got to updatePersonalInfo');
+    console.log(localStorage.getItem("uid"));
+    $(".uidSpan").text(localStorage.getItem("uid"));
   }
 }
 
@@ -42,6 +47,7 @@ var app = {
         localStorage.setItem("utoken", serverData.token);
 
         view.goTo('#cardsPane');
+        view.updatePersonalInfo();
       })
       .catch(function(serverData){
         view.errorMessage('#loginError', serverData.responseText);
