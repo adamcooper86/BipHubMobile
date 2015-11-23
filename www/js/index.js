@@ -23,21 +23,37 @@ var view = {
     $(contentId).removeClass('inactive').addClass('active');
   },
   errorMessage: function(errorTarget, message){
-    $(errorTarget).text("There was an error logging in. " + message);
+    $(errorTarget).text("There was an error signing in. " + message);
+  },
+  loginUser: function(){
+    $('#logoutLink').show();
+    this.updatePersonalInfo();
+  },
+  logoutUser: function(){
+    $('#logoutLink').hide();
+    this.goTo('#loginPane');
   },
   updatePersonalInfo: function(){
-    console.log('got to updatePersonalInfo');
-    console.log(localStorage.getItem("uid"));
     $(".uidSpan").text(localStorage.getItem("uid"));
+  },
+  prepareView: function(){
+    $('#logoutLink').hide();
   }
 }
 
 var app = {
   initialize: function() {
     this.bindEvents();
+    view.prepareView();
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
+    $("#logoutLink").click(this.handleLogOut);
+  },
+  handleLogOut: function(){
+    localStorage.removeItem("uid");
+    localStorage.removeItem("utoken");
+    view.logoutUser();
   },
   submitLoginForm: function(){
     var data = $("#loginForm").serialize();
@@ -47,7 +63,7 @@ var app = {
         localStorage.setItem("utoken", serverData.token);
 
         view.goTo('#cardsPane');
-        view.updatePersonalInfo();
+        view.loginUser();
       })
       .catch(function(serverData){
         view.errorMessage('#loginError', serverData.responseText);
