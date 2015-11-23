@@ -26,3 +26,6 @@ Temporary Items
 
 # log files
 log/
+
+# platform specific files
+platforms/
