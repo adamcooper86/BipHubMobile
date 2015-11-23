@@ -19,9 +19,11 @@ var post = function(action, data){
 
 var view = {
   goTo: function(contentId){
-    console.log('got to view.goToCards');
     $('.active').removeClass('active').addClass('inactive');
     $(contentId).removeClass('inactive').addClass('active');
+  },
+  errorMessage: function(errorTarget, message){
+    $(errorTarget).text("There was an error logging in. " + message);
   }
 }
 
@@ -36,18 +38,13 @@ var app = {
     var data = $("#loginForm").serialize();
     post('http://localhost:3000/api/v1/login', data)
       .then(function(serverData){
-        console.log('success');
-        console.log(serverData.id);
-        console.log(serverData.token);
-
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
 
         view.goTo('#cardsPane');
       })
       .catch(function(serverData){
-        console.log('there was a problem');
-        console.log(serverData.responseText);
+        view.errorMessage('#loginError', serverData.responseText);
       });
 
     return false;
