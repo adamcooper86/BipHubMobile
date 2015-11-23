@@ -17,13 +17,13 @@ var post = function(action, data){
   });
 }
 
-// var view = {
-//   transitionTo: function(pageName){
-//     page = pageName + ".html";
-//     console.log('transitioning to ' + pageName);
-//     $( ":mobile-pagecontainer" ).pagecontainer( "change", page);
-//   }
-// }
+var view = {
+  goTo: function(contentId){
+    console.log('got to view.goToCards');
+    $('.active').removeClass('active').addClass('inactive');
+    $(contentId).removeClass('inactive').addClass('active');
+  }
+}
 
 var app = {
   initialize: function() {
@@ -43,8 +43,7 @@ var app = {
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
 
-        $(":mobile-pagecontainer").pagecontainer( "change", "#cardsPage");
-
+        view.goTo('#cardsPane');
       })
       .catch(function(serverData){
         console.log('there was a problem');
@@ -54,36 +53,3 @@ var app = {
     return false;
   }
 };
-
-
-// var app = {
-//     // Application Constructor
-//     initialize: function() {
-//         this.bindEvents();
-//     },
-//     // Bind Event Listeners
-//     //
-//     // Bind any events that are required on startup. Common events are:
-//     // 'load', 'deviceready', 'offline', and 'online'.
-//     bindEvents: function() {
-//         document.addEventListener('deviceready', this.onDeviceReady, false);
-//     },
-//     // deviceready Event Handler
-//     //
-//     // The scope of 'this' is the event. In order to call the 'receivedEvent'
-//     // function, we must explicitly call 'app.receivedEvent(...);'
-//     onDeviceReady: function() {
-//         app.receivedEvent('deviceready');
-//     },
-//     // Update DOM on a Received Event
-//     receivedEvent: function(id) {
-//         var parentElement = document.getElementById(id);
-//         var listeningElement = parentElement.querySelector('.listening');
-//         var receivedElement = parentElement.querySelector('.received');
-
-//         listeningElement.setAttribute('style', 'display:none;');
-//         receivedElement.setAttribute('style', 'display:block;');
-
-//         console.log('Received Event: ' + id);
-//     }
-// };

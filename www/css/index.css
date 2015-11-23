@@ -56,3 +56,12 @@ h1 {
 .b1r {
   border: 1px solid red;
 }
+
+/*View Classes*/
+.active {
+  display:block;
+}
+
+.inactive {
+  display: none;
+}
