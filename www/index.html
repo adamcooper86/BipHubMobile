@@ -6,21 +6,20 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>BibHub Mobile</title>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
   </head>
   <body>
-    <div data-role="page" class="app">
+    <div data-role="page" id="loginPage" class="app">
       <div data-role="header">
         <h1>Biphub</h1>
-        <a href="#" data-role="button" id="logoutLink" data-inline="true" data-ajax="false">Logout</a>
       </div>
-      <div class="active" id="loginPane" data-role="content">
+      <div data-role="content">
         <p class="error" id="loginError"></p>
         <form id="loginForm" data-ajax="false">
           <input name="email" type="text" placeholder="email@gmail.com"/>
@@ -29,7 +28,13 @@
           <input name="submit" type="submit" value="submit"/>
         </form>
       </div>
-      <div class="inactive" id="cardsPane" data-role="content">
+    </div>
+    <div data-role="page" id="cardsPage">
+      <div data-role="header">
+        <h1>Biphub</h1>
+        <a href="#" data-role="button" id="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+      </div>
+      <div data-role="content">
         <h2>Your UID is <span class="uidSpan"></span></h2>
         <p>Your card stack is currently empty. Way to go!</p>
       </div>

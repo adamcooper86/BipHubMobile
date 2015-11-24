@@ -19,32 +19,25 @@ var post = function(action, data){
 
 var view = {
   goTo: function(contentId){
-    $('.active').removeClass('active').addClass('inactive');
-    $(contentId).removeClass('inactive').addClass('active');
+    $(":mobile-pagecontainer").pagecontainer("change", contentId);
   },
   errorMessage: function(errorTarget, message){
     $(errorTarget).text("There was an error signing in. " + message);
   },
   loginUser: function(){
-    $('#logoutLink').show();
     this.updatePersonalInfo();
   },
   logoutUser: function(){
-    $('#logoutLink').hide();
-    this.goTo('#loginPane');
+    this.goTo('#loginPage');
   },
   updatePersonalInfo: function(){
     $(".uidSpan").text(localStorage.getItem("uid"));
-  },
-  prepareView: function(){
-    $('#logoutLink').hide();
   }
 }
 
 var app = {
   initialize: function() {
     this.bindEvents();
-    view.prepareView();
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
@@ -62,7 +55,7 @@ var app = {
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
 
-        view.goTo('#cardsPane');
+        view.goTo('#cardsPage');
         view.loginUser();
       })
       .catch(function(serverData){
