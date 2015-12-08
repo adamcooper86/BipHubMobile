@@ -51,27 +51,31 @@ var view = {
     this.goTo('#loginPage');
   },
   updatePersonalInfo: function(){
-    $(".uidSpan").text(localStorage.getItem("uid"));
+    var name = localStorage.getItem("u_first_name");
+    name += " " + localStorage.getItem("u_last_name");
+    $(".uName").text(name);
+    $(".uSchoolName").text(localStorage.getItem('u_school_name'));
   },
   showObservation: function(observations){
     form = this.makeObservationForm(observations);
     $("#recordsPrompt").html(form);
   },
   makeObservationForm: function(observations){
+    var student = observations[0][2];
+    var nickname = student['nickname'];
     var observation = observations[0];
     var record_inputs = this.makeRecordInputs(observation[1]);
-    var intro = '<h3>Observation for</h3><h4>Student: ' + observation[0]["student_id"] + '</h4>'
-    var form = '<form id="observationRecordsForm">' + '<input name="submit" type="submit" value="submit"/></form>';
+    var intro = '<h3>Observation for</h3><h4>Student: ' + nickname + '</h4>'
+    var form = '<form id="observationRecordsForm">' + record_inputs + '<input name="submit" type="submit" value="submit"/></form>';
     return intro + form
   },
   makeRecordInputs: function(records){
-    console.log("Made it to makeRecordInputs");
     var inputs = ""
     $.each(records, function(index, record){
-      input = '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      input = '<label for="record_' + record["id"] + '">' + record["prompt"] + '</label>'
+      input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
       inputs += input;
     });
-    console.log(inputs);
     return inputs;
   }
 }
@@ -108,6 +112,9 @@ var app = {
       .then(function(serverData){
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
+        localStorage.setItem("u_first_name", serverData.first_name);
+        localStorage.setItem("u_last_name", serverData.last_name);
+        localStorage.setItem("u_school_name", serverData.school_name);
 
         app.getObservations(serverData.id, serverData.token);
         view.loginUser();
