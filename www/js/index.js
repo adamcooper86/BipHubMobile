@@ -107,8 +107,12 @@ var app = {
     var data = $("#loginForm").serialize();
     post('http://localhost:3000/api/v1/login', data)
       .then(function(serverData){
+        console.log(serverData)
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
+        localStorage.setItem("u_first_name", serverData.first_name);
+        localStorage.setItem("u_last_name", serverData.last_name);
+        localStorage.setItem("u_school_name", serverData.school_name);
 
         app.getObservations(serverData.id, serverData.token);
         view.loginUser();
