@@ -52,6 +52,27 @@ var view = {
   },
   updatePersonalInfo: function(){
     $(".uidSpan").text(localStorage.getItem("uid"));
+  },
+  showObservation: function(observations){
+    form = this.makeObservationForm(observations);
+    $("#recordsPrompt").html(form);
+  },
+  makeObservationForm: function(observations){
+    var observation = observations[0];
+    var record_inputs = this.makeRecordInputs(observation[1]);
+    var intro = '<h3>Observation for</h3><h4>Student: ' + observation[0]["student_id"] + '</h4>'
+    var form = '<form id="observationRecordsForm">' + '<input name="submit" type="submit" value="submit"/></form>';
+    return intro + form
+  },
+  makeRecordInputs: function(records){
+    console.log("Made it to makeRecordInputs");
+    var inputs = ""
+    $.each(records, function(index, record){
+      input = '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      inputs += input;
+    });
+    console.log(inputs);
+    return inputs;
   }
 }
 
@@ -69,15 +90,12 @@ var app = {
     view.logoutUser();
   },
   getObservations: function(user_id, authenticity_token){
-    console.log('got to getObservations');
-    console.log(user_id);
-    console.log(authenticity_token);
     var data = "user_id=" + user_id + "&authenticity_token=" + authenticity_token;
-    console.log(data);
 
     get('http://localhost:3000/api/v1/observations?' + data)
       .then(function(serverData){
-        console.log('success');
+        localStorage.setItem("observations", serverData);
+        view.showObservation(serverData);
       })
       .catch(function(serverData){
         console.log('error');
