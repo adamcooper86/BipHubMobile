@@ -57,20 +57,27 @@ var view = {
     $(".uSchoolName").text(localStorage.getItem('u_school_name'));
   },
   showObservation: function(observations){
-    form = this.makeObservationForm(observations);
-    $("#recordsPrompt").html(form);
+    observation = observations[0];
+    $('#emptyNotice').hide();
+    this.updateNickname(observation);
+    this.updateObservationForm(observation);
+    $('#date').datebox({
+        mode: "calbox"
+    });
   },
-  makeObservationForm: function(observations){
-    var student = observations[0][2];
+  updateNickname: function(observation){
+    var student = observation[2];
     var nickname = student['nickname'];
-    var observation = observations[0];
+    $("#sAlias").text(nickname);
+  },
+  updateObservationForm: function(observation){
     var record_inputs = this.makeRecordInputs(observation[1]);
-    var intro = '<h3>Observation for</h3><h4>Student: ' + nickname + '</h4>'
-    var form = '<form id="observationRecordsForm">' + record_inputs + '<input name="submit" type="submit" value="submit"/></form>';
-    return intro + form
+    $('#observationRecordsForm').prepend($(record_inputs));
+    $('#observationRecordsForm').trigger('create');
   },
   makeRecordInputs: function(records){
-    var inputs = ""
+
+    var inputs = '<input type="text" id="date" />'
     $.each(records, function(index, record){
       input = '<label for="record_' + record["id"] + '">' + record["prompt"] + '</label>'
       input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
