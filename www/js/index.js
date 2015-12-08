@@ -51,7 +51,10 @@ var view = {
     this.goTo('#loginPage');
   },
   updatePersonalInfo: function(){
-    $(".uidSpan").text(localStorage.getItem("uid"));
+    var name = localStorage.getItem("u_first_name");
+    name += " " + localStorage.getItem("u_last_name");
+    $(".uName").text(name);
+    $(".uSchoolName").text(localStorage.getItem('u_school_name'));
   },
   showObservation: function(observations){
     form = this.makeObservationForm(observations);
