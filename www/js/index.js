@@ -17,6 +17,25 @@ var post = function(action, data){
   });
 }
 
+var get = function(action, data){
+  return new Promise(function(resolve, reject){
+
+    console.log("About to make a get call - ");
+    console.log(action);
+    console.log(data);
+
+    var request = $.get(action, data);
+
+    request.done(function(serverData){
+      resolve(serverData)
+    });
+
+    request.fail(function(serverData){
+      reject(serverData)
+    });
+  });
+}
+
 var view = {
   goTo: function(contentId){
     $(":mobile-pagecontainer").pagecontainer("change", contentId);
