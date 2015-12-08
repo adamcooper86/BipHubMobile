@@ -45,6 +45,7 @@ var view = {
   },
   loginUser: function(){
     this.updatePersonalInfo();
+    this.goTo('#cardsPage');
   },
   logoutUser: function(){
     this.goTo('#loginPage');
