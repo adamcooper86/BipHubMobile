@@ -17,6 +17,25 @@ var post = function(action, data){
   });
 }
 
+var get = function(action, data){
+  return new Promise(function(resolve, reject){
+
+    console.log("About to make a get call - ");
+    console.log(action);
+    console.log(data);
+
+    var request = $.get(action, data);
+
+    request.done(function(serverData){
+      resolve(serverData)
+    });
+
+    request.fail(function(serverData){
+      reject(serverData)
+    });
+  });
+}
+
 var view = {
   goTo: function(contentId){
     $(":mobile-pagecontainer").pagecontainer("change", contentId);
@@ -26,12 +45,34 @@ var view = {
   },
   loginUser: function(){
     this.updatePersonalInfo();
+    this.goTo('#cardsPage');
   },
   logoutUser: function(){
     this.goTo('#loginPage');
   },
   updatePersonalInfo: function(){
     $(".uidSpan").text(localStorage.getItem("uid"));
+  },
+  showObservation: function(observations){
+    form = this.makeObservationForm(observations);
+    $("#recordsPrompt").html(form);
+  },
+  makeObservationForm: function(observations){
+    var observation = observations[0];
+    var record_inputs = this.makeRecordInputs(observation[1]);
+    var intro = '<h3>Observation for</h3><h4>Student: ' + observation[0]["student_id"] + '</h4>'
+    var form = '<form id="observationRecordsForm">' + '<input name="submit" type="submit" value="submit"/></form>';
+    return intro + form
+  },
+  makeRecordInputs: function(records){
+    console.log("Made it to makeRecordInputs");
+    var inputs = ""
+    $.each(records, function(index, record){
+      input = '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      inputs += input;
+    });
+    console.log(inputs);
+    return inputs;
   }
 }
 
@@ -48,6 +89,19 @@ var app = {
     localStorage.removeItem("utoken");
     view.logoutUser();
   },
+  getObservations: function(user_id, authenticity_token){
+    var data = "user_id=" + user_id + "&authenticity_token=" + authenticity_token;
+
+    get('http://localhost:3000/api/v1/observations?' + data)
+      .then(function(serverData){
+        localStorage.setItem("observations", serverData);
+        view.showObservation(serverData);
+      })
+      .catch(function(serverData){
+        console.log('error');
+        console.log(serverData.responseText)
+      });
+  },
   submitLoginForm: function(){
     var data = $("#loginForm").serialize();
     post('http://localhost:3000/api/v1/login', data)
@@ -55,7 +109,7 @@ var app = {
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
 
-        view.goTo('#cardsPage');
+        app.getObservations(serverData.id, serverData.token);
         view.loginUser();
       })
       .catch(function(serverData){
