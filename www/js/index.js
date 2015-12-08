@@ -61,14 +61,15 @@ var view = {
     var observation = observations[0];
     var record_inputs = this.makeRecordInputs(observation[1]);
     var intro = '<h3>Observation for</h3><h4>Student: ' + observation[0]["student_id"] + '</h4>'
-    var form = '<form id="observationRecordsForm">' + '<input name="submit" type="submit" value="submit"/></form>';
+    var form = '<form id="observationRecordsForm">' + record_inputs + '<input name="submit" type="submit" value="submit"/></form>';
     return intro + form
   },
   makeRecordInputs: function(records){
     console.log("Made it to makeRecordInputs");
     var inputs = ""
     $.each(records, function(index, record){
-      input = '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      input = '<label for="record_' + record["id"] + '">' + record["prompt"] + '</label>'
+      input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
       inputs += input;
     });
     console.log(inputs);
