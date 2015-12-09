@@ -61,8 +61,10 @@ var view = {
     $('#emptyNotice').hide();
     this.updateNickname(observation);
     this.updateObservationForm(observation);
-    $('#date').datebox({
-        mode: "calbox"
+    $('.time').datebox({
+        mode: "durationflipbox",
+        overrideDurationOrder:["h","i","s"],
+        overrideDurationFormat: "%DM:%DS"
     });
   },
   updateNickname: function(observation){
@@ -76,11 +78,14 @@ var view = {
     $('#observationRecordsForm').trigger('create');
   },
   makeRecordInputs: function(records){
-
-    var inputs = '<input type="text" id="date" />'
+    var inputs = '';
     $.each(records, function(index, record){
-      input = '<label for="record_' + record["id"] + '">' + record["prompt"] + '</label>'
-      input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
+      if(record["meme"] == "Time"){
+        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
+      } else {
+        input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      }
       inputs += input;
     });
     return inputs;
