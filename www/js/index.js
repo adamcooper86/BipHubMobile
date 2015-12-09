@@ -80,11 +80,18 @@ var view = {
   makeRecordInputs: function(records){
     var inputs = '';
     $.each(records, function(index, record){
+      console.log(record)
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
       } else if(record["meme"] == "Percentage"){
         input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" />';
+      } else if(record["meme"] == "Qualitative"){
+        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" />';
+      } else if(record["meme"] == "Incidence"){
+        input += '<input type="text" name="' + record["id"] + '"/>';
+      } else if(record["meme"] == "Boolean"){
+        input += '<select name="' + record["id"] + '" data-role="slider"><option value="true">Yes</option><option value="false">No</option></select>';
       } else {
         input += '<input type="text" name="' + record["id"] + '" />';
       }
