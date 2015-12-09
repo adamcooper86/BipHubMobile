@@ -107,6 +107,7 @@ var app = {
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
+    $("#observationRecordsForm").submit(this.submitObservationForm);
     $("#logoutLink").click(this.handleLogOut);
   },
   handleLogOut: function(){
@@ -144,6 +145,10 @@ var app = {
         view.errorMessage('#loginError', serverData.responseText);
       });
 
+    return false;
+  },
+  submitObservationForm: function(){
+    console.log('got to submitObservationForm');
     return false;
   }
 };
