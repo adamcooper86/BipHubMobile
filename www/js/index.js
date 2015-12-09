@@ -17,6 +17,29 @@ var post = function(action, data){
   });
 }
 
+var patch = function(action, data){
+  return new Promise(function(resolve, reject){
+
+    console.log("About to make a patch call - ");
+    console.log(action);
+    console.log(data);
+
+    var request = $.ajax({
+      method: 'PATCH',
+      url: action,
+      data: data
+    });
+
+    request.done(function(serverData){
+      resolve(serverData)
+    });
+
+    request.fail(function(serverData){
+      reject(serverData)
+    });
+  });
+}
+
 var get = function(action, data){
   return new Promise(function(resolve, reject){
 
@@ -152,22 +175,13 @@ var app = {
     var id = localStorage.getItem('observation_id');
     var data = $("#observationRecordsForm").serialize();
     var action = "http://localhost:3000/api/v1/observations/" + id;
-    console.log(data);
-    console.log(action);
-    // post(login', data)
-    //   .then(function(serverData){
-    //     localStorage.setItem("uid", serverData.id);
-    //     localStorage.setItem("utoken", serverData.token);
-    //     localStorage.setItem("u_first_name", serverData.first_name);
-    //     localStorage.setItem("u_last_name", serverData.last_name);
-    //     localStorage.setItem("u_school_name", serverData.school_name);
-
-    //     app.getObservations(serverData.id, serverData.token);
-    //     view.loginUser();
-    //   })
-    //   .catch(function(serverData){
-    //     view.errorMessage('#loginError', serverData.responseText);
-    //   });
+    patch(action, data)
+      .then(function(serverData){
+        console.log(serverData);
+      })
+      .catch(function(serverData){
+        view.errorMessage('#observationError', serverData.responseText);
+      });
     return false;
   }
 };
