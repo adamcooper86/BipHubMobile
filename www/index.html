@@ -12,6 +12,11 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- These links/script tags are for the JSM DatePicker -->
+    <link rel="stylesheet" type="text/css" href="css/jtsage-datebox.min.css" />
+    <script type="text/javascript" src="js/jtsage-datebox.min.js"></script>
+
     <script type="text/javascript" src="js/index.js"></script>
   </head>
   <body>
@@ -36,7 +41,12 @@
       </div>
       <div data-role="content">
         <div id="recordsPrompt">
-          <p>Your card stack is currently empty. Way to go!</p>
+          <p id="emptyNotice">Your card stack is currently empty. Way to go!</p>
+          <h3>Observation for</h3>
+          <h4>Student: <span id="sAlias"></span></h4>
+          <form id="observationRecordsForm" data-ajax="false">
+            <input name="submit" type="submit" value="submit"/>
+          </form>
         </div>
         <p id="userInformation">You are logged in as <span class="uName"></span> from <span class="uSchoolName"></span></p>
       </div>

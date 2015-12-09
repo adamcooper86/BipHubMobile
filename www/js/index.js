@@ -57,23 +57,44 @@ var view = {
     $(".uSchoolName").text(localStorage.getItem('u_school_name'));
   },
   showObservation: function(observations){
-    form = this.makeObservationForm(observations);
-    $("#recordsPrompt").html(form);
+    observation = observations[0];
+    $('#emptyNotice').hide();
+    this.updateNickname(observation);
+    this.updateObservationForm(observation);
+    $('.time').datebox({
+        mode: "durationflipbox",
+        overrideDurationOrder:["h","i","s"],
+        overrideDurationFormat: "%DM:%DS"
+    });
   },
-  makeObservationForm: function(observations){
-    var student = observations[0][2];
+  updateNickname: function(observation){
+    var student = observation[2];
     var nickname = student['nickname'];
-    var observation = observations[0];
+    $("#sAlias").text(nickname);
+  },
+  updateObservationForm: function(observation){
     var record_inputs = this.makeRecordInputs(observation[1]);
-    var intro = '<h3>Observation for</h3><h4>Student: ' + nickname + '</h4>'
-    var form = '<form id="observationRecordsForm">' + record_inputs + '<input name="submit" type="submit" value="submit"/></form>';
-    return intro + form
+    $('#observationRecordsForm').prepend($(record_inputs));
+    $('#observationRecordsForm').trigger('create');
   },
   makeRecordInputs: function(records){
-    var inputs = ""
+    var inputs = '';
     $.each(records, function(index, record){
-      input = '<label for="record_' + record["id"] + '">' + record["prompt"] + '</label>'
-      input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+      console.log(record)
+      input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
+      if(record["meme"] == "Time"){
+        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
+      } else if(record["meme"] == "Percentage"){
+        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" />';
+      } else if(record["meme"] == "Qualitative"){
+        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" />';
+      } else if(record["meme"] == "Incidence"){
+        input += '<input type="text" name="' + record["id"] + '"/>';
+      } else if(record["meme"] == "Boolean"){
+        input += '<select name="' + record["id"] + '" data-role="slider"><option value="true">Yes</option><option value="false">No</option></select>';
+      } else {
+        input += '<input type="text" name="' + record["id"] + '" />';
+      }
       inputs += input;
     });
     return inputs;
