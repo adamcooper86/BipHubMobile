@@ -120,7 +120,8 @@ var app = {
 
     get('http://localhost:3000/api/v1/observations?' + data)
       .then(function(serverData){
-        localStorage.setItem("observations", serverData);
+        console.log(serverData)
+        localStorage.setItem("observation_id", serverData[0][0]["id"]);
         view.showObservation(serverData);
       })
       .catch(function(serverData){
@@ -148,7 +149,25 @@ var app = {
     return false;
   },
   submitObservationForm: function(){
-    console.log('got to submitObservationForm');
+    var id = localStorage.getItem('observation_id');
+    var data = $("#observationRecordsForm").serialize();
+    var action = "http://localhost:3000/api/v1/observations/" + id;
+    console.log(data);
+    console.log(action);
+    // post(login', data)
+    //   .then(function(serverData){
+    //     localStorage.setItem("uid", serverData.id);
+    //     localStorage.setItem("utoken", serverData.token);
+    //     localStorage.setItem("u_first_name", serverData.first_name);
+    //     localStorage.setItem("u_last_name", serverData.last_name);
+    //     localStorage.setItem("u_school_name", serverData.school_name);
+
+    //     app.getObservations(serverData.id, serverData.token);
+    //     view.loginUser();
+    //   })
+    //   .catch(function(serverData){
+    //     view.errorMessage('#loginError', serverData.responseText);
+    //   });
     return false;
   }
 };
