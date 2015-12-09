@@ -83,8 +83,10 @@ var view = {
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
+      } else if(record["meme"] == "Percentage"){
+        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" />';
       } else {
-        input += '<input name="' + record["id"] + '" type="text" placeholder="10" />';
+        input += '<input type="text" name="' + record["id"] + '" />';
       }
       inputs += input;
     });
