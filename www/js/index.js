@@ -121,6 +121,10 @@ var view = {
       inputs += input;
     });
     return inputs;
+  },
+  clearObservationsForm: function(){
+    $('.record').remove();
+    $('label').remove();
   }
 }
 
@@ -143,7 +147,6 @@ var app = {
 
     get('http://localhost:3000/api/v1/observations?' + data)
       .then(function(serverData){
-        console.log(serverData)
         localStorage.setItem("observation_id", serverData[0][0]["id"]);
         view.showObservation(serverData);
       })
@@ -174,23 +177,21 @@ var app = {
   submitObservationForm: function(){
     console.log('got to submitObservationForm');
     var user_id = localStorage.getItem('uid');
-    console.log(user_id);
     var authenticity_token = localStorage.getItem('utoken');
-    console.log(authenticity_token);
     var results = app.getInputResults();
-    // var data = {"user_id"=> user_id, "authenticity_token"=> authenticity_token, "observation"=>{"records_attributes"=> results}}
+    var id = localStorage.getItem('observation_id');
+    var data = { user_id: user_id, authenticity_token: authenticity_token, observation: { records_attributes: results}}
 
-    // var id = localStorage.getItem('observation_id');
-
-    // var form_data = $("#observationRecordsForm").serialize();
-    // var action = "http://localhost:3000/api/v1/observations/" + id;
-    // patch(action, data)
-    //   .then(function(serverData){
-    //     console.log(serverData);
-    //   })
-    //   .catch(function(serverData){
-    //     view.errorMessage('#observationError', serverData.responseText);
-    //   });
+    var action = "http://localhost:3000/api/v1/observations/" + id;
+    patch(action, data)
+      .then(function(serverData){
+        console.log(serverData);
+        view.clearObservationsForm();
+        app.getObservations(user_id, authenticity_token);
+      })
+      .catch(function(serverData){
+        view.errorMessage('#observationError', serverData.responseText);
+      });
     return false;
   },
   getInputResults: function(){
