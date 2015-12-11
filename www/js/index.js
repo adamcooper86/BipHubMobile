@@ -106,17 +106,17 @@ var view = {
       console.log(record)
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
-        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
+        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
       } else if(record["meme"] == "Percentage"){
-        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" />';
+        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" class="record"/>';
       } else if(record["meme"] == "Qualitative"){
-        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" />';
+        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" class="record" />';
       } else if(record["meme"] == "Incidence"){
-        input += '<input type="text" name="' + record["id"] + '"/>';
+        input += '<input type="text" name="' + record["id"] + '" class="record"/>';
       } else if(record["meme"] == "Boolean"){
-        input += '<select name="' + record["id"] + '" data-role="slider"><option value="true">Yes</option><option value="false">No</option></select>';
+        input += '<select name="' + record["id"] + '" data-role="slider" class="record"><option value="true">Yes</option><option value="false">No</option></select>';
       } else {
-        input += '<input type="text" name="' + record["id"] + '" />';
+        input += '<input type="text" name="' + record["id"] + '" class="record" />';
       }
       inputs += input;
     });
@@ -172,16 +172,54 @@ var app = {
     return false;
   },
   submitObservationForm: function(){
-    var id = localStorage.getItem('observation_id');
-    var data = $("#observationRecordsForm").serialize();
-    var action = "http://localhost:3000/api/v1/observations/" + id;
-    patch(action, data)
-      .then(function(serverData){
-        console.log(serverData);
-      })
-      .catch(function(serverData){
-        view.errorMessage('#observationError', serverData.responseText);
-      });
+    console.log('got to submitObservationForm');
+    var user_id = localStorage.getItem('uid');
+    console.log(user_id);
+    var authenticity_token = localStorage.getItem('utoken');
+    console.log(authenticity_token);
+    var results = app.getInputResults();
+    // var data = {"user_id"=> user_id, "authenticity_token"=> authenticity_token, "observation"=>{"records_attributes"=> results}}
+
+    // var id = localStorage.getItem('observation_id');
+
+    // var form_data = $("#observationRecordsForm").serialize();
+    // var action = "http://localhost:3000/api/v1/observations/" + id;
+    // patch(action, data)
+    //   .then(function(serverData){
+    //     console.log(serverData);
+    //   })
+    //   .catch(function(serverData){
+    //     view.errorMessage('#observationError', serverData.responseText);
+    //   });
     return false;
+  },
+  getInputResults: function(){
+    console.log('got to getInputResults');
+    var results = {}
+
+    var $inputs = $('#observationRecordsForm .record');
+
+    $inputs.each(function() {
+        results[this.name] = $(this).val();
+    });
+
+    results = this.formatInputResults(results);
+
+    console.log('Retruning results');
+    console.log(results);
+    return results
+  },
+  formatInputResults: function(results){
+    console.log('got to formatInputResults')
+    var formatted_results = {};
+    var count = 0;
+
+    $.each(results, function(id, value){
+      var record = {id: id, result: value };
+      formatted_results[count] = record;
+      count ++;
+    });
+
+    return formatted_results
   }
 };
