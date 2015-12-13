@@ -146,7 +146,7 @@ var app = {
     post('http://localhost:3000/api/v1/loggedin', data)
       .then(function(serverData){
         localStorage.setItem("utoken", serverData.token);
-        app.getObservations(serverData.id, serverData.token);
+        app.checkForObservations();
         view.loginUser();
       })
       .catch(function(serverData){
@@ -180,7 +180,7 @@ var app = {
         localStorage.setItem("u_last_name", serverData.last_name);
         localStorage.setItem("u_school_name", serverData.school_name);
 
-        app.getObservations(serverData.id, serverData.token);
+        app.checkForObservations();
         view.loginUser();
       })
       .catch(function(serverData){
@@ -232,5 +232,32 @@ var app = {
     });
 
     return formatted_results
+  },
+  checkForObservations: function(){
+    console.log('got to checkForObservations')
+    var timeout = 5000;
+    var user_id = localStorage.getItem('uid');
+    var authenticity_token = localStorage.getItem('utoken');
+
+    app.getObservations(user_id, authenticity_token);
+
+    var action = function() {
+      var data = "user_id=" + user_id + "&authenticity_token=" + authenticity_token;
+
+      get('http://localhost:3000/api/v1/observations?' + data)
+        .then(function(serverData){
+          current_observation_id = localStorage.getItem("observation_id");
+          if(current_observation_id != serverData[0][0]["id"]){
+            localStorage.setItem("observation_id", serverData[0][0]["id"]);
+            view.clearObservationsForm();
+            view.showObservation(serverData);
+          }
+        })
+        .catch(function(serverData){
+          console.log('error');
+          console.log(serverData.responseText)
+        });
+    };
+    setInterval(action, timeout);
   }
 };
