@@ -246,7 +246,7 @@ var app = {
     return formatted_results
   },
   checkForObservations: function(){
-    var timeout = 120000;
+    var timeout = 120000; //two minutes
     var user_id = localStorage.getItem('uid');
     var authenticity_token = localStorage.getItem('utoken');
 
