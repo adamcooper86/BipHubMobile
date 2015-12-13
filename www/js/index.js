@@ -79,9 +79,16 @@ var view = {
     $(".uName").text(name);
     $(".uSchoolName").text(localStorage.getItem('u_school_name'));
   },
-  showObservation: function(observations){
+  updateObservations: function(observations){
     observation = observations[0];
-    $('#emptyNotice').hide();
+    if(observation){
+      view.goTo('#cardsPage')
+      view.showObservation(observation);
+    } else {
+      view.goTo('#emptyPage');
+    }
+  },
+  showObservation: function(observation){
     this.updateNickname(observation);
     this.updateObservationForm(observation);
     $('.time').datebox({
@@ -162,8 +169,14 @@ var app = {
 
     get('http://localhost:3000/api/v1/observations?' + data)
       .then(function(serverData){
-        localStorage.setItem("observation_id", serverData[0][0]["id"]);
-        view.showObservation(serverData);
+        var observation = serverData[0];
+        if(observation){
+          localStorage.setItem("observation_id", serverData[0][0]["id"]);
+          view.updateObservations(serverData);
+        } else {
+          localStorage.removeItem('observation_id');
+          view.updateObservations(serverData);
+        }
       })
       .catch(function(serverData){
         console.log('error');
@@ -199,7 +212,6 @@ var app = {
     var action = "http://localhost:3000/api/v1/observations/" + id;
     patch(action, data)
       .then(function(serverData){
-        console.log(serverData);
         view.clearObservationsForm();
         app.getObservations(user_id, authenticity_token);
       })
@@ -246,10 +258,16 @@ var app = {
       get('http://localhost:3000/api/v1/observations?' + data)
         .then(function(serverData){
           current_observation_id = localStorage.getItem("observation_id");
-          if(current_observation_id != serverData[0][0]["id"]){
-            localStorage.setItem("observation_id", serverData[0][0]["id"]);
-            view.clearObservationsForm();
-            view.showObservation(serverData);
+          var observation = serverData[0];
+          if(observation){
+            if(current_observation_id != observation[0]["id"]){
+              localStorage.setItem("observation_id", serverData[0][0]["id"]);
+              view.clearObservationsForm();
+              view.updateObservations(serverData);
+            }
+          } else if(current_observation_id){
+            localStorage.removeItem('observation_id');
+            view.updateObservations(serverData);
           }
         })
         .catch(function(serverData){
