@@ -17,6 +17,29 @@ var post = function(action, data){
   });
 }
 
+var patch = function(action, data){
+  return new Promise(function(resolve, reject){
+
+    console.log("About to make a patch call - ");
+    console.log(action);
+    console.log(data);
+
+    var request = $.ajax({
+      method: 'PATCH',
+      url: action,
+      data: data
+    });
+
+    request.done(function(serverData){
+      resolve(serverData)
+    });
+
+    request.fail(function(serverData){
+      reject(serverData)
+    });
+  });
+}
+
 var get = function(action, data){
   return new Promise(function(resolve, reject){
 
@@ -83,21 +106,25 @@ var view = {
       console.log(record)
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
-        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time" />';
+        input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
       } else if(record["meme"] == "Percentage"){
-        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" />';
+        input += '<input type="range" name="' + record["id"] + '" value="50" min="0" max="100" class="record"/>';
       } else if(record["meme"] == "Qualitative"){
-        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" />';
+        input += '<input type="range" name="' + record["id"] + '" value="5" min="0" max="5" class="record" />';
       } else if(record["meme"] == "Incidence"){
-        input += '<input type="text" name="' + record["id"] + '"/>';
+        input += '<input type="text" name="' + record["id"] + '" class="record"/>';
       } else if(record["meme"] == "Boolean"){
-        input += '<select name="' + record["id"] + '" data-role="slider"><option value="true">Yes</option><option value="false">No</option></select>';
+        input += '<select name="' + record["id"] + '" data-role="slider" class="record"><option value="true">Yes</option><option value="false">No</option></select>';
       } else {
-        input += '<input type="text" name="' + record["id"] + '" />';
+        input += '<input type="text" name="' + record["id"] + '" class="record" />';
       }
       inputs += input;
     });
     return inputs;
+  },
+  clearObservationsForm: function(){
+    $('.record').remove();
+    $('label').remove();
   }
 }
 
@@ -107,6 +134,7 @@ var app = {
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
+    $("#observationRecordsForm").submit(this.submitObservationForm);
     $("#logoutLink").click(this.handleLogOut);
   },
   handleLogOut: function(){
@@ -119,7 +147,7 @@ var app = {
 
     get('http://localhost:3000/api/v1/observations?' + data)
       .then(function(serverData){
-        localStorage.setItem("observations", serverData);
+        localStorage.setItem("observation_id", serverData[0][0]["id"]);
         view.showObservation(serverData);
       })
       .catch(function(serverData){
@@ -145,5 +173,54 @@ var app = {
       });
 
     return false;
+  },
+  submitObservationForm: function(){
+    console.log('got to submitObservationForm');
+    var user_id = localStorage.getItem('uid');
+    var authenticity_token = localStorage.getItem('utoken');
+    var results = app.getInputResults();
+    var id = localStorage.getItem('observation_id');
+    var data = { user_id: user_id, authenticity_token: authenticity_token, observation: { records_attributes: results}}
+
+    var action = "http://localhost:3000/api/v1/observations/" + id;
+    patch(action, data)
+      .then(function(serverData){
+        console.log(serverData);
+        view.clearObservationsForm();
+        app.getObservations(user_id, authenticity_token);
+      })
+      .catch(function(serverData){
+        view.errorMessage('#observationError', serverData.responseText);
+      });
+    return false;
+  },
+  getInputResults: function(){
+    console.log('got to getInputResults');
+    var results = {}
+
+    var $inputs = $('#observationRecordsForm .record');
+
+    $inputs.each(function() {
+        results[this.name] = $(this).val();
+    });
+
+    results = this.formatInputResults(results);
+
+    console.log('Retruning results');
+    console.log(results);
+    return results
+  },
+  formatInputResults: function(results){
+    console.log('got to formatInputResults')
+    var formatted_results = {};
+    var count = 0;
+
+    $.each(results, function(id, value){
+      var record = {id: id, result: value };
+      formatted_results[count] = record;
+      count ++;
+    });
+
+    return formatted_results
   }
 };
