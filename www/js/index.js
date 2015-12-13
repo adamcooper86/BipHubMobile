@@ -103,7 +103,6 @@ var view = {
   makeRecordInputs: function(records){
     var inputs = '';
     $.each(records, function(index, record){
-      console.log(record)
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
@@ -131,11 +130,27 @@ var view = {
 var app = {
   initialize: function() {
     this.bindEvents();
+    this.isLoggedIn();
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
     $("#observationRecordsForm").submit(this.submitObservationForm);
     $("#logoutLink").click(this.handleLogOut);
+  },
+  isLoggedIn: function(){
+    var uid = localStorage.getItem('uid') || 0;
+    var token = localStorage.getItem('utoken') || "";
+
+    var data = { user_id: uid, authenticity_token: token };
+
+    post('http://localhost:3000/api/v1/loggedin', data)
+      .then(function(serverData){
+        localStorage.setItem("utoken", serverData.token);
+        app.getObservations(serverData.id, serverData.token);
+        view.loginUser();
+      })
+      .catch(function(serverData){
+      });
   },
   handleLogOut: function(){
     localStorage.removeItem("uid");
@@ -175,7 +190,6 @@ var app = {
     return false;
   },
   submitObservationForm: function(){
-    console.log('got to submitObservationForm');
     var user_id = localStorage.getItem('uid');
     var authenticity_token = localStorage.getItem('utoken');
     var results = app.getInputResults();
@@ -195,7 +209,6 @@ var app = {
     return false;
   },
   getInputResults: function(){
-    console.log('got to getInputResults');
     var results = {}
 
     var $inputs = $('#observationRecordsForm .record');
@@ -206,12 +219,9 @@ var app = {
 
     results = this.formatInputResults(results);
 
-    console.log('Retruning results');
-    console.log(results);
     return results
   },
   formatInputResults: function(results){
-    console.log('got to formatInputResults')
     var formatted_results = {};
     var count = 0;
 
