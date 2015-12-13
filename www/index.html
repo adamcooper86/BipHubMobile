@@ -37,18 +37,27 @@
     <div data-role="page" id="cardsPage">
       <div data-role="header">
         <h1>Biphub</h1>
-        <a href="#" data-role="button" id="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+        <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
       </div>
       <div data-role="content">
         <div id="recordsPrompt">
           <p id="observationError"></p>
-          <p id="emptyNotice">Your card stack is currently empty. Way to go!</p>
           <h3>Observation for</h3>
           <h4>Student: <span id="sAlias"></span></h4>
           <form id="observationRecordsForm" data-ajax="false">
             <input name="submit" type="submit" value="submit"/>
           </form>
         </div>
+        <p id="userInformation">You are logged in as <span class="uName"></span> from <span class="uSchoolName"></span></p>
+      </div>
+    </div>
+    <div data-role="page" id="emptyPage">
+      <div data-role="header">
+        <h1>Biphub</h1>
+        <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+      </div>
+      <div data-role="content">
+        <p id="emptyNotice">Your card stack is currently empty. Way to go!</p>
         <p id="userInformation">You are logged in as <span class="uName"></span> from <span class="uSchoolName"></span></p>
       </div>
     </div>

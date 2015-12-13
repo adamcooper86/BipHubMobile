@@ -135,7 +135,7 @@ var app = {
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
     $("#observationRecordsForm").submit(this.submitObservationForm);
-    $("#logoutLink").click(this.handleLogOut);
+    $(".logoutLink").click(this.handleLogOut);
   },
   isLoggedIn: function(){
     var uid = localStorage.getItem('uid') || 0;
