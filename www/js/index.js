@@ -103,7 +103,6 @@ var view = {
   makeRecordInputs: function(records){
     var inputs = '';
     $.each(records, function(index, record){
-      console.log(record)
       input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
@@ -175,7 +174,6 @@ var app = {
     return false;
   },
   submitObservationForm: function(){
-    console.log('got to submitObservationForm');
     var user_id = localStorage.getItem('uid');
     var authenticity_token = localStorage.getItem('utoken');
     var results = app.getInputResults();
@@ -195,7 +193,6 @@ var app = {
     return false;
   },
   getInputResults: function(){
-    console.log('got to getInputResults');
     var results = {}
 
     var $inputs = $('#observationRecordsForm .record');
@@ -206,12 +203,9 @@ var app = {
 
     results = this.formatInputResults(results);
 
-    console.log('Retruning results');
-    console.log(results);
     return results
   },
   formatInputResults: function(results){
-    console.log('got to formatInputResults')
     var formatted_results = {};
     var count = 0;
 
