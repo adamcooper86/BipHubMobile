@@ -234,8 +234,7 @@ var app = {
     return formatted_results
   },
   checkForObservations: function(){
-    console.log('got to checkForObservations')
-    var timeout = 5000;
+    var timeout = 120000;
     var user_id = localStorage.getItem('uid');
     var authenticity_token = localStorage.getItem('utoken');
 
