@@ -130,11 +130,27 @@ var view = {
 var app = {
   initialize: function() {
     this.bindEvents();
+    this.isLoggedIn();
   },
   bindEvents: function() {
     $("#loginForm").submit(this.submitLoginForm);
     $("#observationRecordsForm").submit(this.submitObservationForm);
     $("#logoutLink").click(this.handleLogOut);
+  },
+  isLoggedIn: function(){
+    var uid = localStorage.getItem('uid') || 0;
+    var token = localStorage.getItem('utoken') || "";
+
+    var data = { user_id: uid, authenticity_token: token };
+
+    post('http://localhost:3000/api/v1/loggedin', data)
+      .then(function(serverData){
+        localStorage.setItem("utoken", serverData.token);
+        app.getObservations(serverData.id, serverData.token);
+        view.loginUser();
+      })
+      .catch(function(serverData){
+      });
   },
   handleLogOut: function(){
     localStorage.removeItem("uid");
