@@ -129,8 +129,7 @@ var view = {
     return inputs;
   },
   clearObservationsForm: function(){
-    $('.record').remove();
-    $('label').remove();
+    document.getElementById("observationRecordsForm").innerHTML = "<input name='submit' type='submit' value='submit'/>";
   }
 }
 
