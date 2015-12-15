@@ -21,7 +21,7 @@
   </head>
   <body>
     <div data-role="page" id="loginPage" class="app">
-      <div data-role="header">
+      <div data-role="header" class="header">
         <h1>Biphub</h1>
       </div>
       <div data-role="content">
@@ -35,9 +35,11 @@
       </div>
     </div>
     <div data-role="page" id="cardsPage">
-      <div data-role="header">
+      <div data-role="header" class="header">
+        <div id="logout-wrapper">
+          <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+        </div>
         <h1>Biphub</h1>
-        <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
       </div>
       <div data-role="content">
         <div id="recordsPrompt">
@@ -52,9 +54,11 @@
       </div>
     </div>
     <div data-role="page" id="emptyPage">
-      <div data-role="header">
-        <h1>Biphub</h1>
-        <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+      <div data-role="header" class="header">
+        <h1>BipHub</h1>
+        <div id="logout-wrapper">
+          <a href="#" data-role="button" class="logoutLink" data-inline="true" data-ajax="false">Logout</a>
+        </div>
       </div>
       <div data-role="content">
         <p id="emptyNotice">Your card stack is currently empty. Way to go!</p>
