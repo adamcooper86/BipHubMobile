@@ -19,10 +19,19 @@ body {
   color: rgb(44, 62, 80) !important;
 }
 
-#loginPage {
-  background: url(../img/biphublogo.jpg) no-repeat center top;
+#loginPage, #emptyPage {
+  background: url(../img/logo.png) no-repeat center top;
   background-size: 70%;
-  background-position: 50% 90%;
+  background-position: 50% 80%;
+}
+
+#emptyNotice{
+  padding: 1em;
+  text-align: center;
+}
+
+#alert{
+  color: rgb(231, 76, 60);
 }
 
 #loginForm {
