@@ -11,21 +11,10 @@ body {
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
 }
-
-/* Portrait layout (default) */
-.app {
+#loginPage {
     background: url(../img/biphublogo.jpg) no-repeat center top;
     background-size: 70%;
     background-position: 50% 90%;
-}
-
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-    }
-}
-
-h1 {
 }
 
 #loginForm input{

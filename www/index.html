@@ -16,11 +16,10 @@
 
     <!-- These links/script tags are for the JSM DatePicker -->
     <script type="text/javascript" src="js/jtsage-datebox.min.js"></script>
-
     <script type="text/javascript" src="js/index.js"></script>
   </head>
   <body>
-    <div data-role="page" id="loginPage" class="app">
+    <div data-role="page" id="loginPage">
       <div data-role="header" class="header">
         <h1>BipHub</h1>
       </div>
@@ -43,9 +42,8 @@
       </div>
       <div data-role="content">
         <div id="recordsPrompt">
+          <h3>Observation for <span id="sAlias"></span></h3>
           <p id="observationError"></p>
-          <h3>Observation for</h3>
-          <h4>Student: <span id="sAlias"></span></h4>
           <form id="observationRecordsForm" data-ajax="false">
             <input name="submit" type="submit" value="submit"/>
           </form>
