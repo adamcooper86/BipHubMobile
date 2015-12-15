@@ -103,6 +103,7 @@ var view = {
     $("#sAlias").text(nickname);
   },
   updateObservationForm: function(observation){
+    view.clearObservationsForm();
     var record_inputs = this.makeRecordInputs(observation[1]);
     $('#observationRecordsForm').prepend($(record_inputs));
     $('#observationRecordsForm').trigger('create');
@@ -211,7 +212,6 @@ var app = {
     var action = "http://biphub.herokuapp.com/api/v1/observations/" + id;
     patch(action, data)
       .then(function(serverData){
-        view.clearObservationsForm();
         app.getObservations(user_id, authenticity_token);
       })
       .catch(function(serverData){
@@ -261,7 +261,6 @@ var app = {
           if(observation){
             if(current_observation_id != observation[0]["id"]){
               localStorage.setItem("observation_id", serverData[0][0]["id"]);
-              view.clearObservationsForm();
               view.updateObservations(serverData);
             }
           } else if(current_observation_id){
