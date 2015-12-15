@@ -111,7 +111,7 @@ var view = {
   makeRecordInputs: function(records){
     var inputs = '';
     $.each(records, function(index, record){
-      input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
+      input = '<div class="recordGroup"><label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
       } else if(record["meme"] == "Percentage"){
@@ -125,6 +125,7 @@ var view = {
       } else {
         input += '<input type="text" name="' + record["id"] + '" class="record" />';
       }
+      input += "</div>"
       inputs += input;
     });
     return inputs;

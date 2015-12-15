@@ -8,13 +8,25 @@ body {
     -webkit-user-select: none;
 
     background-color: rgb(236, 240, 241) !important;
+    color: rgb(44, 62, 80) !important;
+
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
 }
+
+.ui-page {
+  background-color: rgb(236, 240, 241) !important;
+  color: rgb(44, 62, 80) !important;
+}
+
 #loginPage {
-    background: url(../img/biphublogo.jpg) no-repeat center top;
-    background-size: 70%;
-    background-position: 50% 90%;
+  background: url(../img/biphublogo.jpg) no-repeat center top;
+  background-size: 70%;
+  background-position: 50% 90%;
+}
+
+#loginForm {
+  padding: 1em;
 }
 
 #loginForm input{
@@ -37,6 +49,49 @@ body {
   position: absolute;
   top: -2px;
   right: 0px;
+}
+
+.ui-content{
+  padding: 0em;
+}
+
+#observationRecordsForm{
+  background-color: rgb(41, 128, 145);
+  padding: .5em;
+}
+
+#observationRecordsForm .recordGroup{
+  background-color: rgb(236, 240, 241) !important;
+  padding: .5em;
+  margin: .25em 0em;
+  border-radius: .5em;
+}
+
+#observationError{
+  display:none;
+  color: rgb(231, 76, 60) !important;
+  text-shadow: 0 1px 0 rgb(44, 62, 80) !important;
+  background-color: rgb(52, 152, 219);
+  margin: 0px;
+  padding: 1em;
+}
+
+.userInformation {
+  position:fixed;
+  left:0px;
+  bottom:0px;
+  height:30px;
+  width:100%;
+  text-align: center;
+  padding: 1em 0em;
+  margin: 0px;
+  background-color: rgb(236, 240, 241) !important;
+  color: rgb(44, 62, 80) !important;
+}
+
+#recordsPrompt h2{
+  margin: 0px;
+  padding: 1em;
 }
 
 /*View Classes*/
