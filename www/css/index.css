@@ -7,6 +7,7 @@ body {
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
 
+    background-color: rgb(236, 240, 241) !important;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
 }
@@ -33,10 +34,14 @@ h1 {
 
 .header, .ui-header .ui-bar-inherit {
   height: 45px;
+  background-color: rgb(52, 152, 219) !important;
+  color: rgb(236, 240, 241) !important;
+  text-shadow: 0 1px 0 rgb(44, 62, 80) !important;
 }
 
 .header h1.ui-title{
-  font-size: 1.4em;
+  font-size: 1.6em;
+  padding: .5em 0;
 }
 
 #logout-wrapper{
