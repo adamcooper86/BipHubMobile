@@ -103,6 +103,7 @@ var view = {
     $("#sAlias").text(nickname);
   },
   updateObservationForm: function(observation){
+    view.clearObservationsForm();
     var record_inputs = this.makeRecordInputs(observation[1]);
     $('#observationRecordsForm').prepend($(record_inputs));
     $('#observationRecordsForm').trigger('create');
@@ -110,7 +111,7 @@ var view = {
   makeRecordInputs: function(records){
     var inputs = '';
     $.each(records, function(index, record){
-      input = '<label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
+      input = '<div class="recordGroup"><label for="record_' + record["id"] + '">' + record["prompt"]  + '</label>'
       if(record["meme"] == "Time"){
         input += '<input name="' + record["id"] + '" type="text" placeholder="10" class="time record" />';
       } else if(record["meme"] == "Percentage"){
@@ -124,6 +125,7 @@ var view = {
       } else {
         input += '<input type="text" name="' + record["id"] + '" class="record" />';
       }
+      input += "</div>"
       inputs += input;
     });
     return inputs;
@@ -149,7 +151,7 @@ var app = {
 
     var data = { user_id: uid, authenticity_token: token };
 
-    post('http://localhost:3000/api/v1/loggedin', data)
+    post('http://biphub.herokuapp.com/api/v1/loggedin', data)
       .then(function(serverData){
         localStorage.setItem("utoken", serverData.token);
         app.checkForObservations();
@@ -166,7 +168,7 @@ var app = {
   getObservations: function(user_id, authenticity_token){
     var data = "user_id=" + user_id + "&authenticity_token=" + authenticity_token;
 
-    get('http://localhost:3000/api/v1/observations?' + data)
+    get('http://biphub.herokuapp.com/api/v1/observations?' + data)
       .then(function(serverData){
         var observation = serverData[0];
         if(observation){
@@ -184,7 +186,7 @@ var app = {
   },
   submitLoginForm: function(){
     var data = $("#loginForm").serialize();
-    post('http://localhost:3000/api/v1/login', data)
+    post('http://biphub.herokuapp.com/api/v1/login', data)
       .then(function(serverData){
         localStorage.setItem("uid", serverData.id);
         localStorage.setItem("utoken", serverData.token);
@@ -208,10 +210,9 @@ var app = {
     var id = localStorage.getItem('observation_id');
     var data = { user_id: user_id, authenticity_token: authenticity_token, observation: { records_attributes: results}}
 
-    var action = "http://localhost:3000/api/v1/observations/" + id;
+    var action = "http://biphub.herokuapp.com/api/v1/observations/" + id;
     patch(action, data)
       .then(function(serverData){
-        view.clearObservationsForm();
         app.getObservations(user_id, authenticity_token);
       })
       .catch(function(serverData){
@@ -254,14 +255,13 @@ var app = {
     var action = function() {
       var data = "user_id=" + user_id + "&authenticity_token=" + authenticity_token;
 
-      get('http://localhost:3000/api/v1/observations?' + data)
+      get('http://biphub.herokuapp.com/api/v1/observations?' + data)
         .then(function(serverData){
           current_observation_id = localStorage.getItem("observation_id");
           var observation = serverData[0];
           if(observation){
             if(current_observation_id != observation[0]["id"]){
               localStorage.setItem("observation_id", serverData[0][0]["id"]);
-              view.clearObservationsForm();
               view.updateObservations(serverData);
             }
           } else if(current_observation_id){
